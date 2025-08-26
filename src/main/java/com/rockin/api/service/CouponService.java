@@ -6,10 +6,12 @@ import com.rockin.api.domain.event.Event;
 import com.rockin.api.repositories.CouponRepository;
 import com.rockin.api.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Service
 public class CouponService {
 
     @Autowired
