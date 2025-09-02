@@ -4,13 +4,15 @@ import com.rockin.api.domain.address.Address;
 import com.rockin.api.domain.event.Event;
 import com.rockin.api.domain.event.EventRequestDTO;
 import com.rockin.api.repositories.AddressRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AddressService {
 
-    @Autowired
+
     public AddressRepository addressRepository;
 
     public Address createAddress(EventRequestDTO data, Event event) {
