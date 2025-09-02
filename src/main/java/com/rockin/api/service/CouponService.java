@@ -6,7 +6,6 @@ import com.rockin.api.domain.event.Event;
 import com.rockin.api.repositories.CouponRepository;
 import com.rockin.api.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,10 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CouponService {
 
-
     private CouponRepository couponRepository;
-
-
     private EventRepository eventRepository;
 
     public Coupon addCouponToEvent(UUID eventId, CouponRequestDTO couponData) {

@@ -23,5 +23,4 @@ public class CouponController {
         Coupon coupons = couponService.addCouponToEvent(eventId, data);
         return ResponseEntity.ok(coupons);
     }
-
 }
