@@ -8,7 +8,6 @@ import com.rockin.api.domain.event.EventRequestDTO;
 import com.rockin.api.domain.event.EventResponseDTO;
 import com.rockin.api.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,15 +30,10 @@ public class EventService {
 
     @Value("${aws.bucket.name")
     private String bucketName;
-
-
     private AmazonS3 s3Client;
 
-
-    private EventRepository repository;
-
+    private EventRepository eventRepository;
     private CouponService couponService;
-
     private AddressService addressService;
 
     public Event createEvent(EventRequestDTO data) {
@@ -56,14 +50,14 @@ public class EventService {
         newEvent.setDate(new Date(data.date()));
         newEvent.setImgUrl(imgUrl);
 
-        repository.save(newEvent);
+        eventRepository.save(newEvent);
 
         return newEvent;
     }
 
     public List<EventResponseDTO> getUpcomingEvents(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Event> eventsPage = this.repository.findUpcomingEvents(new Date(), pageable);
+        Page<Event> eventsPage = this.eventRepository.findUpcomingEvents(new Date(), pageable);
         return eventsPage.map(event -> new EventResponseDTO(
                         event.getId(),
                         event.getTitle(),
@@ -86,7 +80,7 @@ public class EventService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Event> eventsPage = this.repository.findFilteredEvents(title, city, uf, startDate, endDate, pageable);
+        Page<Event> eventsPage = this.eventRepository.findFilteredEvents(title, city, uf, startDate, endDate, pageable);
         return eventsPage.map(event -> new EventResponseDTO(
                         event.getId(),
                         event.getTitle(),
@@ -101,7 +95,7 @@ public class EventService {
     }
 
     public EventDetailsDTO getEventDetails(UUID eventId) {
-        Event event = repository.findById(eventId)
+        Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
 
         List<Coupon> coupons = couponService.consultCoupons(eventId, new Date());
